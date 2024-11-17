@@ -95,6 +95,7 @@ async function leaderHealthCheck() {
                 }
             } catch (error) {
                 isLeaderOnline = false
+                console.log(error);
                 logger('HTTP', 'healthCheck', 'El lider ya no está en linea')
                 throwElection();
             }

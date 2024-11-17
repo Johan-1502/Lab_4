@@ -27,10 +27,6 @@ let infoComputerSelected;
 let ipToAdd;
 let portToAdd;
 
-app.get('/deployServer', async (req, res) => {
-
-});
-
 //Hacer que cuando se agregue se le envíe a todos los nodos el nuevo nodo
 //Hay que cambiar para que el id se ponga de lo que envíe el front
 app.put('/addServer', async (req, res) => {
@@ -117,7 +113,7 @@ function selectComputer(id) {
         serverName = 'administrador'
     }
     //docker run -e IP=192.168.1.109 -e PORT=5001 -e IP_MONITOR=192.168.1.109 -e PORT_MONITOR=7000 -e INTERVAL=6 -e ID=1  --name nodo2 -p 5001:5001 -d nodo
-    command = `echo "${passwordSelected}" | sudo -S docker run -e IP=${ipComputerSelected} -e PORT=${actualPort} -e IP_MONITOR=${ipMonitor} -e PORT_MONITOR=${portMonitor} -e INTERVAL=${newTimeInterval()}--name Server${actualPort - 5000} -p ${actualPort}:${actualPort} -d nodo`;
+    command = `echo "${passwordSelected}" | sudo -S docker run -e IP=${ipComputerSelected} -e PORT=${actualPort} -e IP_MONITOR=${ipMonitor} -e PORT_MONITOR=${portMonitor} -e INTERVAL=${newTimeInterval()} --name server${actualPort - 5000} -p ${actualPort}:${actualPort} -d nodo`;
     ipToAdd = ipComputerSelected;
     portToAdd = actualPort;
     infoComputerSelected = { command: command, ipComputerSelected: ipComputerSelected, passwordSelected: passwordSelected, name: serverName };
@@ -126,7 +122,7 @@ function selectComputer(id) {
 
 // método para obtener el intervalo en que hará healthcheck
 function newTimeInterval() {
-    const numbers = [3000, 3500, 4000, 4500];
+    const numbers = [3, 6, 4, 5];
     const randomIndex = Math.floor(Math.random() * numbers.length);
     logger(' JS ', 'newTimeInterval', `El intervalo de tiempo elegido es de: ${numbers[randomIndex]} ms`);
     return numbers[randomIndex];
