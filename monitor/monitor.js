@@ -140,7 +140,9 @@ function connect() {
                 conn.end();
             }).on('data', (data) => {
                 console.log('Salida del comando:\n' + data);
-                identifiers.push({ ipServer: ipToAdd, portServer: portToAdd, identifier: data, fallen: false})
+                console.log(''+data);
+                
+                identifiers.push({ ipServer: ipToAdd, portServer: portToAdd, identifier: ''+data , fallen: false})
             }).stderr.on('data', (data) => {
                 console.error('Error del comando:\n' + data);
             });
@@ -162,14 +164,21 @@ app.put('/changeServerStatus', async (req, res) => {
 
 //Método para cambiar el estado de un servidor
 async function changeServerStatus(ip, port) {
-    const serverToFall = identifiers.find(server => server.ipServer === ip && server.portServer === port);
+    console.log(identifiers[0].identifier);
+    console.log(ip,':',port);
+    console.log(identifiers);
+    
+    const serverToFall = identifiers.find(server => (server.ipServer == ''+ip && server.portServer == ''+port));
+    console.log(serverToFall);
+    
     let serverIdentifier = serverToFall.identifier;
+    let isFallen = serverToFall.fallen
     if (serverToFall.fallen) {
         command = `echo "${infoComputerSelected.passwordSelected}" | sudo -S docker start ${serverIdentifier}`;
-        serverIdentifier.fallen = false;
+        serverToFall.fallen = false;
     }else{
         command = `echo "${infoComputerSelected.passwordSelected}" | sudo -S docker stop ${serverIdentifier}`;
-        serverIdentifier.fallen = true;
+        serverToFall.fallen = true;
     }
     const conn = new Client();
     conn.on('ready', () => {
@@ -181,7 +190,11 @@ async function changeServerStatus(ip, port) {
                 conn.end();
             }).on('data', (data) => {
                 console.log('Salida del comando:\n' + data);
-                logger('SSH','stopServer',`Se ha caido el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
+                if (isFallen) {
+                    logger('SSH','stopServer',`Se ha activado el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
+                }else{
+                    logger('SSH','stopServer',`Se ha caido el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
+                }
             }).stderr.on('data', (data) => {
                 console.error('Error del comando:\n' + data);
             });
