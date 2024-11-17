@@ -107,7 +107,8 @@ async function throwElection() {
     electionLaunched = true;
     let aliveServers = 0;
     for (let i = 0; i < servers.length; i++) {
-        if (servers[i].id > idServer) {
+        //Volví a añadir la condición ya que en los requisitos se pide que no le lance la elección al lider recién caido
+        if (servers[i].id > idServer && servers[i].ip != ipLeader && servers[i].port != portLeader) {
             logger('HTTP', 'throwElection', `El nodo con ip ${servers[i].ip} y puerto ${servers[i].port} es opción de lider`)
             try {
                 let response = await fetch(`http://${servers[i].ip}:${servers[i].port}/throwElection`);
