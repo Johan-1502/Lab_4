@@ -10,12 +10,19 @@
 </head>
 <body>
     <div id="app">
-        <section>
-            <div  class="clock">
-                <span id="time">{{ formatTime(logicalTime) }} {{portClientBack}}</span>
+        <div class="server-info">
+            <div v-for="server in serversList" :key="server.name" class="server">
+                <p>{{ server.id }}</p>
+                <p>{{ server.status }}</p>
+                <p>{{ server.isLeader }}</p>
+                <p>{{ server.ip }}</p>
+                <p>{{ server.port }}</p>
+                <button>Red</button>
+                <button>blue</button>
             </div>
-        </section>
+        </div>
         <script src="client.js"></script>
     </div>
+    <script src="monitor_front.js"></script>
 </body>
 </html>

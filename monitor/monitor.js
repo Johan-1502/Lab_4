@@ -27,6 +27,14 @@ let infoComputerSelected;
 let ipToAdd;
 let portToAdd;
 
+io.on('connection', (socket) => {
+    logger(' WS ', 'connection    ', 'El front del coordinador se ha conectado con Sockets');
+    // socket.on('logs', (data) => {
+    //     logger(' WS ', 'logs          ', `El cliente ${data.ip}:${data.port} envió --> ${data.content}`);
+    // });
+    io.emit('serversList', servers);
+});
+
 //Hacer que cuando se agregue se le envíe a todos los nodos el nuevo nodo
 //Hay que cambiar para que el id se ponga de lo que envíe el front
 app.put('/addServer', async (req, res) => {
@@ -53,9 +61,10 @@ app.put('/addServer', async (req, res) => {
             }
         }
         console.log('salio del for');
-
+        
         logger('HTTP', 'addServer', `Se ha agregado el nodo de ip ${data.ip} y puerto ${data.port}`)
         servers.push({ id: data.id, ip: data.ip, port: data.port, isLeader: false })
+        io.emit('serversList', servers);
     } else {
         logger('HTTP', 'addServer', `El nodo de ip ${data.ip} y puerto ${data.port} está en linea de nuevo`)
     }
