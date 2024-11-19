@@ -7,7 +7,7 @@ new Vue({
             {id:1, status:true, isLeader:true, ip:'localhost', port:40050},
             {id:1, status:true, isLeader:true, ip:'localhost', port:40600}
         ],
-        ipMonitorBack: 'localhost',
+        ipMonitorBack: '192.168.171.202',
         portMonitorBack: 7000
     },
     methods: {
