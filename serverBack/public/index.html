@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servidor</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div id="app" class="container">
+        <header>
+            <h1>Servidor</h1>
+        </header>
+        <main>
+            <section class="clock-section">
+                <div class="clock">
+                    <span id="time">{{ server.status }}</span>
+                </div>
+            </section>
+            <section class="log-section">
+                <h2>Logs</h2>
+                <pre>{{ serverLogs }}</pre>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
