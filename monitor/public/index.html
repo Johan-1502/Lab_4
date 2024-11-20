@@ -12,11 +12,11 @@
     <div id="app">
         <div class="server-info">
             <div v-for="server in serversList" :key="server.name" class="server">
-                <p>{{ server.id }}</p>
-                <p>{{ server.status }}</p>
-                <p>{{ server.isLeader }}</p>
-                <p>{{ server.ip }}</p>
-                <p>{{ server.port }}</p>
+                <p>id: {{ server.id }}</p>
+                <p>status: {{ server.status }}</p>
+                <p>isLeader: {{ server.isLeader }}</p>
+                <p>ip: {{ server.ip }}</p>
+                <p>port: {{ server.port }}</p>
                 <button>Red</button>
                 <button>blue</button>
             </div>
