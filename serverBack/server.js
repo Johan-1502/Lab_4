@@ -26,6 +26,10 @@ let portLeader = '';
 let electionLaunched = false;
 let servers = [];
 
+io.on('connection', (socket) => {
+    logger(' WS ', 'connection    ', 'El front del coordinador se ha conectado con Sockets');
+    io.emit('currentStatus', {status: isLeader});
+});
 
 //Función para que se ejecuta al iniciar el servidor
 async function start() {
@@ -185,10 +189,13 @@ function modifyPort() {
 
     let lines = data.split('\n');
 
-    lines[4] = `        ipServerBack:"${ipServer}",`;
-    lines[5] = `        portServerBack:"${portServer}"`;
+    lines[3] = `        ipServerBack:"${ipServer}",`;
+    lines[4] = `        portServerBack:"${portServer}",`;
 
-    const filePath = path.join(__dirname, 'public', 'client.js');
+    data = lines.join('\n');
+
+
+    const filePath = path.join(__dirname, 'public', 'server.js');
 
     fs.writeFile(filePath, data, (err) => {
         if (err) {
@@ -204,7 +211,7 @@ function logger(protocol, endpoint, message) {
     let log = `${new Date(Date.now()).toLocaleTimeString()} | ${protocol} | ${endpoint} | ${message}`;
     console.log(log);
     //socket.emit('logs', { port: portClient, ip: ipClient, content: log })
-    //io.emit('currentLogs', log);
+    io.emit('currentLogs', log);
 };
 
 //Servicio para añadir un nuevo servidor
