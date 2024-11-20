@@ -43,6 +43,7 @@ new Vue({
                 console.log('no fue posible desplegar el servidor');
             }
         },
+        //En lo que dice ip y port toca poner la información del botón oprimido para saber que ip y puerto es el que se va a enviar
         async changeServerStatus(){
             const response = await fetch(`http://${this.ipMonitorBack}:${this.portMonitorBack}/changeServerStatus`, {
                 method: 'PUT',
