@@ -45,8 +45,8 @@
                         </div>
                     </div>
                     <div class="card-buttons">
-                        <button v-if="server.status" class="stopButton" @click="changeServerStatus(server)">Detener</button>   
-                        <button v-if="!server.status" class="reviveButton" @click="changeServerStatus(server)">Reanudar</button>
+                        <button v-if="!server.status" class="stopButton" @click="changeServerStatus(server)">Detener</button>   
+                        <button v-if="server.status" class="reviveButton" @click="changeServerStatus(server)">Reanudar</button>
                     </div>
                 </div>
             </div>

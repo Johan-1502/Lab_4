@@ -1,10 +1,11 @@
 new Vue({
     el: '#app',
     data: {
-        ipServerBack:"localhost",
+        ipServerBack:"192.168.171.202",
         portServerBack:"5005",
         serverStatus: '',
-        serverLogs: [{asdf:2345}],
+        serverLogs: [],
+        serverHealthCheck: [],
         isLeader: false
     },
     methods: {
@@ -21,6 +22,10 @@ new Vue({
 
             this.socket.on('currentLogs', (data) => {
                 this.serverLogs.push(data); 
+            });
+
+            this.socket.on('healthCheckLogs', (data) => {
+                this.serverHealthCheck.push(data); 
             });
         }
     },

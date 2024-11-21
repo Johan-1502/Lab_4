@@ -110,11 +110,11 @@ async function leaderHealthCheck() {
                 let data = await response.json();
 
                 if (data.answer === 'OK') {
-                    logger('HTTP', 'healthCheck', 'Lider en linea')
+                    loggerHealth('HTTP', 'healthCheck', 'Lider en linea')
                 }
             } catch (error) {
                 isLeaderOnline = false
-                logger('HTTP', 'healthCheck', 'El lider ya no está en linea')
+                loggerHealth('HTTP', 'healthCheck', 'El lider ya no está en linea')
                 throwElection();
             }
         }
@@ -182,7 +182,7 @@ async function announceLeader() {
 function modifyPort() {
     let data = '';
     try {
-        data = fs.readFileSync('./public/server.js', 'utf8');
+        data = fs.readFileSync('./public/server_front.js', 'utf8');
     } catch (err) {
         console.error('Error al leer el archivo:', err);
     }
@@ -195,7 +195,7 @@ function modifyPort() {
     data = lines.join('\n');
 
 
-    const filePath = path.join(__dirname, 'public', 'server.js');
+    const filePath = path.join(__dirname, 'public', 'server_front.js');
 
     fs.writeFile(filePath, data, (err) => {
         if (err) {
@@ -212,6 +212,14 @@ function logger(protocol, endpoint, message) {
     console.log(log);
     //socket.emit('logs', { port: portClient, ip: ipClient, content: log })
     io.emit('currentLogs', log);
+};
+
+//Función para mostar logs en formato protocolo | endpoint | mensaje
+function loggerHealth(protocol, endpoint, message) {
+    let log = `${new Date(Date.now()).toLocaleTimeString()} | ${protocol} | ${endpoint} | ${message}`;
+    console.log(log);
+    //socket.emit('logs', { port: portClient, ip: ipClient, content: log })
+    io.emit('healthCheckLogs', log);
 };
 
 //Servicio para añadir un nuevo servidor

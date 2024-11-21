@@ -19,8 +19,8 @@
             <section class="clock-section">
                 <div class="clock">
                     <h3>Server</h3>
-                    <p>IP: 101291234234</p>
-                    <p>Puerto: 1234</p>
+                    <p>IP: {{ipServerBack}}</p>
+                    <p>Puerto: {{portServerBack}}</p>
                 </div>
             </section>
             <div class="columnLogs">
@@ -30,7 +30,7 @@
                 </section>
                 <section class="log-section">
                     <h2>Health check</h2>
-                    <pre>{{ serverLogs }}</pre>
+                    <pre>{{ serverHealthCheck }}</pre>
                 </section>
             </div>
         </main>
