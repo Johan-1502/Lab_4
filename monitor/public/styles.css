@@ -1,0 +1,259 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f1f1f1;
+}
+
+.sendInstance{
+    position: absolute;
+    top: 19px;
+    right: 15px;
+}
+
+.headerSendInstance{
+    background-color:  rgb(106, 221, 133);
+    width: 150px;
+}
+
+.headerSendInstance:hover{
+    background-color: rgb(79, 166, 99);
+    transform: scale(1.05);}
+
+.header{
+    width: 100%;
+    height: 70px;
+    align-items: center;
+    justify-items: center;
+    margin-top: 19px;
+    margin-bottom: 9px;
+}
+
+.header h1 {
+    font-size: 40px;
+}
+
+.card-list {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 30px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+.card {
+    width: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card-image {
+    width: 100%;
+    height: 80px;
+    background-color: rgb(211, 173, 238);
+    align-items: center;
+    justify-items: center;
+}
+
+.card-image h2{
+    margin-top: 9%;
+}
+
+.cardCrown {
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-items: center;
+}
+
+.cardCrown h{
+    margin: 0;
+    padding: 0;
+}
+
+.cardCrown img {
+    width: 50px;
+    height: 50px;
+}
+
+.card-content {
+    padding: 15px;
+    width: 100%;
+    text-align: left;
+}
+
+.server-name {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333333;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.server-location {
+    margin-top: 2px;
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.serverItems {
+    display: flex;
+    flex-direction: row;
+}
+
+.itemsColumn1 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.itemsColumn2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.card-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 0px;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+button{
+    margin-top: 10px;
+    width: 80px;
+    padding-top: 6px;
+    padding-bottom: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.stopButton{
+    background-color: rgb(192, 192, 192);
+}
+
+.reviveButton{
+    background-color: rgb(106, 221, 133);
+}
+
+.stopButton:hover{
+    background-color: rgb(125, 125, 125);
+    transform: scale(1.05);
+}
+
+.reviveButton:hover{
+    background-color: rgb(79, 166, 99);
+    transform: scale(1.05);
+}
+
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+
+.closeButtonRegister {
+    position: relative;
+    top: 0px;
+    left: 170px;
+    font-size: 29px;
+    cursor: pointer;
+    color: rgb(68, 68, 68);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    width: 100%;
+    align-items: center;
+}
+
+form input {
+    margin-top: 20px;
+    width: 80%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease-in-out;
+}
+
+form input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+form button {
+    width: 60%;
+    padding: 12px;
+    background-color: rgb(106, 221, 133);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+form button:hover {
+    background-color: rgb(79, 166, 99);
+    transform: scale(1.05);
+}

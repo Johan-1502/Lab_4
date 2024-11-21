@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +9,60 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 </head>
+
 <body>
     <div id="app">
-        <div class="server-info">
-            <div v-for="server in serversList" :key="server.name" class="server">
-                <p>{{ server.id }}</p>
-                <p>{{ server.status }}</p>
-                <p>{{ server.isLeader }}</p>
-                <p>{{ server.ip }}</p>
-                <p>{{ server.port }}</p>
-                <button>Red</button>
-                <button>blue</button>
+        <div class="sendInstance">
+            <button class="headerSendInstance" @click="openModal">Lanza instancia</button>
+        </div>
+        <div class="header">
+            <h1>Monitor de servidores</h1>
+        </div>
+        <div class="card-list">
+            <div v-for="server in serversList" :key="server.name" class="card">
+                <div class="card-image">
+                    <div v-if="server.isLeader" class="cardCrown">
+                        <img src="/Images/crown.png" alt="">
+                        <h3>Server {{server.port-4000}}</h3>
+                    </div>
+                    <h2 v-if="!server.isLeader">Server {{server.port-4000}}</h2>
+                </div>
+                <div class="card-content">
+                    <div class="serverItems">
+                        <div class="itemsColumn1">
+                            <h3 class="server-name">Server ID: </h3>
+                            <p class="server-location">IP Server</p>
+                            <p class="server-location">PORT Server</p>
+                            <p class="server-location">Server status:</p>
+                            <p class="server-name">¿Es líder? </p>
+                        </div>
+                        <div class="itemsColumn2">
+                            <h3 class="server-name">{{ server.id }}</h3>
+                            <p class="server-location">{{ server.ip }}</p>
+                            <p class="server-location">{{ server.port }}</p>
+                            <p class="server-location">{{ server.status }}</p>
+                            <p class="server-name">{{ server.isLeader }}</p>
+                        </div>
+                    </div>
+                    <div class="card-buttons">
+                        <button class="stopButton" @click="stop(server)">Detener</button>
+                        <button class="reviveButton" @click="revive(server)">Reanudar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="newServerModal" class="modal">
+            <div class="modal-content">
+                <span class="closeButtonRegister" @click="closeModal">&times;</span>
+                <h2>Lanzar nueva instancia</h2>
+                <form @submit.prevent="">
+                    <input type="number" id="id-input" placeholder="Escribe un ID" required>
+                    <button type="submit">Lanzar instancia</button>
+                </form>
             </div>
         </div>
     </div>
     <script src="monitor_front.js"></script>
 </body>
+
 </html>
