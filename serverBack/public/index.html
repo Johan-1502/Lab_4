@@ -11,20 +11,30 @@
 <body>
     <div id="app" class="container">
         <header>
-            <h1>Servidor</h1>
+            <div v-if="isLeader" class="cardCrown">
+                <img src="/Images/crown.png" alt="">
+            </div>
         </header>
         <main>
             <section class="clock-section">
                 <div class="clock">
-                    <span id="time">{{ serverStatus }}</span>
+                    <h3>Server</h3>
+                    <p>IP: 101291234234</p>
+                    <p>Puerto: 1234</p>
                 </div>
             </section>
-            <section class="log-section">
-                <h2>Logs</h2>
-                <pre>{{ serverLogs }}</pre>
-            </section>
+            <div class="columnLogs">
+                <section class="log-section">
+                    <h2>Logs</h2>
+                    <pre>{{ serverLogs }}</pre>
+                </section>
+                <section class="log-section">
+                    <h2>Health check</h2>
+                    <pre>{{ serverLogs }}</pre>
+                </section>
+            </div>
         </main>
     </div>
-    <script src="server.js"></script>
+    <script src="server_front.js"></script>
 </body>
 </html>
