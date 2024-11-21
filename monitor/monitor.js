@@ -191,8 +191,9 @@ function connect() {
 //Servicio para cambiar el estado de un servidor
 app.put('/changeServerStatus', async (req, res) => {
     let data = req.body;
-    changeServerStatus(data.ip, data.port);
-    res.status(200).send({ answer: 'OK' });
+    const result = changeServerStatus(data.ip, data.port);
+    console.log(result)
+    res.status(200).send({ answer: 'OK', result: result });
 });
 
 //Método para cambiar el estado de un servidor
@@ -228,6 +229,7 @@ async function changeServerStatus(ip, port) {
                 } else {
                     logger('SSH', 'stopServer', `Se ha caido el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
                 }
+                return serverToFall.fallen;
             }).stderr.on('data', (data) => {
                 console.error('Error del comando:\n' + data);
             });

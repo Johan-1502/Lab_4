@@ -45,8 +45,8 @@
                         </div>
                     </div>
                     <div class="card-buttons">
-                        <button class="stopButton" @click="stop(server)">Detener</button>
-                        <button class="reviveButton" @click="revive(server)">Reanudar</button>
+                        <button v-if="!serverStatus" class="stopButton" @click="stop(server)">Detener</button>
+                        <button v-if="serverStatus" class="reviveButton" @click="revive(server)">Reanudar</button>
                     </div>
                 </div>
             </div>
@@ -59,17 +59,8 @@
                     <input type="number" id="id-input" placeholder="Escribe un ID" required>
                     <button type="submit">Lanzar instancia</button>
                 </form>
-        <div class="server-info">
-            <div v-for="server in serversList" :key="server.name" class="server">
-                <p>id: {{ server.id }}</p>
-                <p>status: {{ server.status }}</p>
-                <p>isLeader: {{ server.isLeader }}</p>
-                <p>ip: {{ server.ip }}</p>
-                <p>port: {{ server.port }}</p>
-                <button>Red</button>
-                <button>blue</button>
             </div>
-        </div>
+        </div>b
     </div>
     <script src="monitor_front.js"></script>
 </body>
