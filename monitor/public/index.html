@@ -22,10 +22,10 @@
             <div v-for="server in serversList" :key="server.name" class="card">
                 <div class="card-image">
                     <div v-if="server.isLeader" class="cardCrown">
-                        <img src="/Images/crown.png" alt="">
+                        <img src="./Images/crown.png" alt="">
                         <h3>Server {{server.port-4000}}</h3>
                     </div>
-                    <h2 v-if="!server.isLeader">Server {{server.port-4000}}</h2>
+                    <h2 v-if="!server.isLeader">Server {{server.port-5000}}</h2>
                 </div>
                 <div class="card-content">
                     <div class="serverItems">
@@ -45,8 +45,8 @@
                         </div>
                     </div>
                     <div class="card-buttons">
-                        <button v-if="!serverStatus" class="stopButton" @click="stop(server)">Detener</button>
-                        <button v-if="serverStatus" class="reviveButton" @click="revive(server)">Reanudar</button>
+                        <button v-if="server.status" class="stopButton" @click="changeServerStatus(server)">Detener</button>   
+                        <button v-if="!server.status" class="reviveButton" @click="changeServerStatus(server)">Reanudar</button>
                     </div>
                 </div>
             </div>
@@ -55,8 +55,8 @@
             <div class="modal-content">
                 <span class="closeButtonRegister" @click="closeModal">&times;</span>
                 <h2>Lanzar nueva instancia</h2>
-                <form @submit.prevent="">
-                    <input type="number" id="id-input" placeholder="Escribe un ID" required>
+                <form @submit.prevent="deploy">
+                    <input v-model="idNewServer" type="number" id="id-input" placeholder="Escribe un ID" required>
                     <button type="submit">Lanzar instancia</button>
                 </form>
             </div>

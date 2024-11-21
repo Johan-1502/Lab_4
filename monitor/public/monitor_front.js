@@ -9,7 +9,8 @@ new Vue({
         ipMonitorBack: '192.168.171.202',
         portMonitorBack: 7000,
         newServerModal: false,
-        serverStatus: null
+        serverStatus: null,
+        idNewServer: null
     },
     methods: {
         // Método para conectarse por websockets al back del cliente
@@ -32,9 +33,9 @@ new Vue({
             const response = await fetch(`http://${this.ipMonitorBack}:${this.portMonitorBack}/deploy`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: this.id})
+                body: JSON.stringify({ id: this.idNewServer})
             });
-    
+            
             const data = await response.json();
             
             if (data.answer === 'OK') {
@@ -42,6 +43,7 @@ new Vue({
             } else {
                 console.log('no fue posible desplegar el servidor');
             }
+            this.newServerModal = false;
         },
         //En lo que dice ip y port toca poner la información del botón oprimido para saber que ip y puerto es el que se va a enviar
         async changeServerStatus(server){

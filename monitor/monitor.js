@@ -96,7 +96,7 @@ app.put('/addServer', async (req, res) => {
 app.post('/updateLeader', async (req, res) => {
     let data = req.body;
     console.log(data);
-    const serverFound = servers.find(server => server.ip === data.ip && server.port === data.port);
+    const serverFound = servers.find(server => server.ip == data.ip && server.port == data.port);
     for (let i = 0; i < servers.length; i++) {
         if (servers[i].isLeader) {
             servers[i].isLeader = false;
@@ -136,17 +136,15 @@ function selectComputer(id) {
     console.log(number)
     if (number == 1) {
         ipComputerSelected = ipComputer1;
-        //passwordSelected = '211100'
-        //serverName = 'server'
-        passwordSelected = 'sebas1502'
-        serverName = 'administrador'
+        passwordSelected = '211100'
+        serverName = 'server'
     } else {
         ipComputerSelected = ipComputer2;
         passwordSelected = 'sebas1502'
         serverName = 'administrador'
     }
     //docker run -e IP=192.168.1.109 -e PORT=5001 -e IP_MONITOR=192.168.1.109 -e PORT_MONITOR=7000 -e INTERVAL=6 -e ID=1  --name nodo2 -p 5001:5001 -d nodo
-    command = `echo "${passwordSelected}" | sudo -S docker run -e IP=${ipComputerSelected} -e PORT=${actualPort} -e IP_MONITOR=${ipMonitor} -e PORT_MONITOR=${portMonitor} -e INTERVAL=${newTimeInterval()} --name server${actualPort - 5000} -p ${actualPort}:${actualPort} -d nodo`;
+    command = `echo "${passwordSelected}" | sudo -S docker run -e IP=${ipComputerSelected} -e PORT=${actualPort} -e IP_MONITOR=${ipMonitor} -e PORT_MONITOR=${portMonitor} -e INTERVAL=${newTimeInterval()} -e ID=${id} --name server${actualPort - 5000} -p ${actualPort}:${actualPort} -d nodo`;
     ipToAdd = ipComputerSelected;
     portToAdd = actualPort;
     infoComputerSelected = { command: command, ipComputerSelected: ipComputerSelected, passwordSelected: passwordSelected, name: serverName };
@@ -175,7 +173,7 @@ function connect() {
                 console.log('Salida del comando:\n' + data);
                 console.log('' + data);
 
-                identifiers.push({ ipServer: ipToAdd, portServer: portToAdd, identifier: '' + data, fallen: false })
+                identifiers.push({ ipServer:ipToAdd, portServer:portToAdd, identifier: '' + data, fallen: false })
             }).stderr.on('data', (data) => {
                 console.error('Error del comando:\n' + data);
             });
@@ -202,7 +200,7 @@ async function changeServerStatus(ip, port) {
     console.log(ip, ':', port);
     console.log(identifiers);
 
-    const serverToFall = identifiers.find(server => (server.ipServer == '' + ip && server.portServer == '' + port));
+    const serverToFall = identifiers.find(server => (server.ipServer == ip && server.portServer == port));
     console.log(serverToFall);
 
     let serverIdentifier = serverToFall.identifier;
