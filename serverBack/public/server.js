@@ -1,16 +1,17 @@
 new Vue({
     el: '#app',
     data: {
-        ipServerBack: 'localhost',
-        portServerBack: '5000',
+        ipServerBack:"192.168.1.2",
+        portServerBack:"5005",
         serverStatus: '',
-        logs: [],
+        serverLogs: [],
     },
     methods: {
         // Método para conectarse por websockets al back del cliente
         socket() {
             this.socket = io.connect(`http://${this.ipServerBack}:${this.portServerBack}`, { 'forceNew': true });
             this.socket.on('connect', () => {
+                console.log('Conectado al servidor de WebSocket');
             });
 
             this.socket.on('currentStatus', (data) => {
@@ -18,7 +19,7 @@ new Vue({
             });
 
             this.socket.on('currentLogs', (data) => {
-                this.logs.push(data); 
+                this.serverLogs.push(data); 
             });
         }
     },

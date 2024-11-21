@@ -27,6 +27,29 @@ let infoComputerSelected;
 let ipToAdd;
 let portToAdd;
 
+setInterval(async () => {
+    if (servers.length > 0) {
+        for (let server of servers) {
+            try {
+                const response = await fetch(`http://${server.ip}:${server.port}/healthCheck`);
+                const data = await response.json()
+                if (data.answer === 'OK') {
+                    let serverCheck = { ip: server.ip, port: server.port, status: true };
+                    io.emit('serverStatus', serverCheck)
+                    server.status = true;
+                }
+            } catch (error) {
+                let serverCheck = { ip: server.ip, port: server.port, status: false };
+                io.emit('serverStatus', serverCheck)
+                if (server.status) {
+                    logger('HTTP', 'healthCheck', `El servidor ${server.ip}:${server.port} se ha caído`)
+                }
+                server.status = false;
+            }
+        }
+    }
+}, 1000);
+
 io.on('connection', (socket) => {
     logger(' WS ', 'connection    ', 'El front del coordinador se ha conectado con Sockets');
     // socket.on('logs', (data) => {
@@ -39,8 +62,7 @@ io.on('connection', (socket) => {
 //Hay que cambiar para que el id se ponga de lo que envíe el front
 app.put('/addServer', async (req, res) => {
     let data = req.body;
-    res.send({ currentServers: servers });
-    console.log(servers);
+    //console.log(servers);
     const serverFound = servers.find(server => server.ip === data.ip && server.port === data.port);
     console.log('entrando al for');
     if (!serverFound) {
@@ -63,7 +85,8 @@ app.put('/addServer', async (req, res) => {
         console.log('salio del for');
         
         logger('HTTP', 'addServer', `Se ha agregado el nodo de ip ${data.ip} y puerto ${data.port}`)
-        servers.push({ id: data.id, ip: data.ip, port: data.port, isLeader: false })
+        servers.push({ id: data.id, ip: data.ip, port: data.port, isLeader: false, status: true })
+        res.send({ currentServers: servers });
         io.emit('serversList', servers);
     } else {
         logger('HTTP', 'addServer', `El nodo de ip ${data.ip} y puerto ${data.port} está en linea de nuevo`)
@@ -81,7 +104,8 @@ app.post('/updateLeader', async (req, res) => {
     }
     serverFound.isLeader = true;
     logger('HTTP', 'updateLeader', `El nodo de ip ${data.ip} y puerto ${data.port} Se ha actualizado como lider`)
-    console.log(servers);
+    io.emit('serversList', servers);
+    //console.log(servers);
 });
 
 
@@ -149,9 +173,9 @@ function connect() {
                 conn.end();
             }).on('data', (data) => {
                 console.log('Salida del comando:\n' + data);
-                console.log(''+data);
-                
-                identifiers.push({ ipServer: ipToAdd, portServer: portToAdd, identifier: ''+data , fallen: false})
+                console.log('' + data);
+
+                identifiers.push({ ipServer: ipToAdd, portServer: portToAdd, identifier: '' + data, fallen: false })
             }).stderr.on('data', (data) => {
                 console.error('Error del comando:\n' + data);
             });
@@ -174,18 +198,18 @@ app.put('/changeServerStatus', async (req, res) => {
 //Método para cambiar el estado de un servidor
 async function changeServerStatus(ip, port) {
     console.log(identifiers[0].identifier);
-    console.log(ip,':',port);
+    console.log(ip, ':', port);
     console.log(identifiers);
-    
-    const serverToFall = identifiers.find(server => (server.ipServer == ''+ip && server.portServer == ''+port));
+
+    const serverToFall = identifiers.find(server => (server.ipServer == '' + ip && server.portServer == '' + port));
     console.log(serverToFall);
-    
+
     let serverIdentifier = serverToFall.identifier;
     let isFallen = serverToFall.fallen
     if (serverToFall.fallen) {
         command = `echo "${infoComputerSelected.passwordSelected}" | sudo -S docker start ${serverIdentifier}`;
         serverToFall.fallen = false;
-    }else{
+    } else {
         command = `echo "${infoComputerSelected.passwordSelected}" | sudo -S docker stop ${serverIdentifier}`;
         serverToFall.fallen = true;
     }
@@ -200,9 +224,9 @@ async function changeServerStatus(ip, port) {
             }).on('data', (data) => {
                 console.log('Salida del comando:\n' + data);
                 if (isFallen) {
-                    logger('SSH','stopServer',`Se ha activado el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
-                }else{
-                    logger('SSH','stopServer',`Se ha caido el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
+                    logger('SSH', 'stopServer', `Se ha activado el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
+                } else {
+                    logger('SSH', 'stopServer', `Se ha caido el servidor ${serverToFall.ipServer}:${serverToFall.portServer}`)
                 }
             }).stderr.on('data', (data) => {
                 console.error('Error del comando:\n' + data);

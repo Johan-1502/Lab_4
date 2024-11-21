@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config({ path: ".env" });
 const app = express();
+const fs = require('fs');
+const path = require('path');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -24,9 +26,14 @@ let portLeader = '';
 let electionLaunched = false;
 let servers = [];
 
+io.on('connection', (socket) => {
+    logger(' WS ', 'connection    ', 'El front del coordinador se ha conectado con Sockets');
+    io.emit('currentStatus', {status: isLeader});
+});
 
 //Función para que se ejecuta al iniciar el servidor
 async function start() {
+    modifyPort();
     await obtainServers();
     await leaderHealthCheck();
 }
@@ -41,7 +48,7 @@ async function obtainServers() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ ip: ipServer, port: portServer, id:idServer})
+            body: JSON.stringify({ ip: ipServer, port: portServer, id: idServer })
         })
         let data = await response.json();
         servers = data.currentServers;
@@ -69,6 +76,18 @@ async function setLeader() {
                 logger('JS', 'setLeader', `El nodo de ip ${ipLeader} y puerto ${portLeader} se ha seteado como el actual líder`);
             }
         }
+        if (ipLeader === '' && portLeader === '') {
+            isLeader = true;
+            logger('JS', 'setLeader', `No hay nodos en linea, procediendo a declararse lider`);
+            let response = await fetch(`http://${ipMonitor}:${portMonitor}/updateLeader`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ip: ipServer, port: portServer })
+            })
+        }
+
     } else {
         isLeader = true;
         logger('JS', 'setLeader', `No hay más nodos por lo que se es declarado lider`);
@@ -95,7 +114,6 @@ async function leaderHealthCheck() {
                 }
             } catch (error) {
                 isLeaderOnline = false
-                console.log(error);
                 logger('HTTP', 'healthCheck', 'El lider ya no está en linea')
                 throwElection();
             }
@@ -129,7 +147,7 @@ async function throwElection() {
         announceLeader();
     } else {
         logger('JS', '', 'Imposible declarase lider, hay nodos en linea con mayor id')
-    }throwElection
+    } throwElection
 }
 
 //Función para anunaciarse como el nuevo lider
@@ -160,12 +178,40 @@ async function announceLeader() {
     electionLaunched = false;
 }
 
+// Método para cambiar el pueto y la ip del front del nodo automaticamente
+function modifyPort() {
+    let data = '';
+    try {
+        data = fs.readFileSync('./public/server.js', 'utf8');
+    } catch (err) {
+        console.error('Error al leer el archivo:', err);
+    }
+
+    let lines = data.split('\n');
+
+    lines[3] = `        ipServerBack:"${ipServer}",`;
+    lines[4] = `        portServerBack:"${portServer}",`;
+
+    data = lines.join('\n');
+
+
+    const filePath = path.join(__dirname, 'public', 'server.js');
+
+    fs.writeFile(filePath, data, (err) => {
+        if (err) {
+            console.error('Error al crear o guardar el archivo:', err);
+            return;
+        }
+        logger(' JS ', 'modifyPort     ', 'Puerto cambiado exitosamente');
+    });
+}
+
 //Función para mostar logs en formato protocolo | endpoint | mensaje
 function logger(protocol, endpoint, message) {
     let log = `${new Date(Date.now()).toLocaleTimeString()} | ${protocol} | ${endpoint} | ${message}`;
     console.log(log);
     //socket.emit('logs', { port: portClient, ip: ipClient, content: log })
-    //io.emit('currentLogs', log);
+    io.emit('currentLogs', log);
 };
 
 //Servicio para añadir un nuevo servidor
@@ -198,7 +244,7 @@ app.put('/setLeader', async (req, res) => {
     portLeader = data.port;
     isLeaderOnline = true;
     electionLaunched = false;
-    res.send({answer: 'OKBB'})
+    res.send({ answer: 'OKBB' })
 });
 
 start();
