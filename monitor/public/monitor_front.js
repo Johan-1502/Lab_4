@@ -6,7 +6,7 @@ new Vue({
         { id: 1, status: false, isLeader: false, ip: 'awaas', port: 40300 },
         { id: 1, status: true, isLeader: false, ip: 'localhost', port: 40050 },
         { id: 1, status: true, isLeader: false, ip: 'localhost', port: 40600 }],
-        ipMonitorBack: '192.168.171.94',
+        ipMonitorBack: '192.168.1.2',
         portMonitorBack: 7000,
         newServerModal: false,
         serverStatus: null,

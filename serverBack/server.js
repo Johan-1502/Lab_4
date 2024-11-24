@@ -70,10 +70,10 @@ async function setLeader() {
         for (let i = 0; i < servers.length; i++) {
             console.log(servers[i].isLeader)
             if (servers[i].isLeader) {
-                ipLeader = servers[i].ip;
+                ipLeader = servers[i].name;
                 portLeader = servers[i].port;
                 isLeaderOnline = true;
-                logger('JS', 'setLeader', `El nodo de ip ${ipLeader} y puerto ${portLeader} se ha seteado como el actual líder`);
+                logger('JS', 'setLeader', `El nodo de ip ${servers[i].ip} y puerto ${portLeader} se ha seteado como el actual líder`);
             }
         }
         if (ipLeader === '' && portLeader === '') {
@@ -127,10 +127,11 @@ async function throwElection() {
     let aliveServers = 0;
     for (let i = 0; i < servers.length; i++) {
         //Volví a añadir la condición ya que en los requisitos se pide que no le lance la elección al lider recién caido
-        if (servers[i].id > idServer && servers[i].ip != ipLeader && servers[i].port != portLeader) {
+        if (servers[i].id > idServer && servers[i].name != ipLeader && servers[i].port != portLeader) {
             logger('HTTP', 'throwElection', `El nodo con ip ${servers[i].ip} y puerto ${servers[i].port} es opción de lider`)
+            console.log(`http://server${servers[i].port-5000}:${servers[i].port}/throwElection`)
             try {
-                let response = await fetch(`http://${servers[i].ip}:${servers[i].port}/throwElection`);
+                let response = await fetch(`http://server${servers[i].port-5000}:${servers[i].port}/throwElection`);
                 let data = await response.json();
 
                 if (data.answer === 'OK') {
@@ -154,12 +155,12 @@ async function throwElection() {
 async function announceLeader() {
     for (let i = 0; i < servers.length; i++) {
         try {
-            let response = await fetch(`http://${servers[i].ip}:${servers[i].port}/setLeader`, {
+            let response = await fetch(`http://${servers[i].name}:${servers[i].port}/setLeader`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ ip: ipServer, port: portServer })
+                body: JSON.stringify({ ip: `server${portServer-5000}`, port: portServer })
             })
             let data = await response.json();
             logger('HTTP', 'setLeader', `Se le ha anunciado al servidor de ip ${servers[i].ip} y puerto ${servers[i].port} el nuevo lider`)
@@ -247,8 +248,8 @@ app.get('/throwElection', async (req, res) => {
 //Servicio para setear el nuevo lider
 app.put('/setLeader', async (req, res) => {
     const data = req.body;
-    logger("HTTP", "setLeader", `Los datos del nuevo lider son: ${data}`)
-    ipLeader = data.ip;
+    logger("HTTP", "setLeader", `Los datos del nuevo lider son: ${data.ip}:${data.port}`)
+    ipLeader = `server${data.port-5000}`;
     portLeader = data.port;
     isLeaderOnline = true;
     electionLaunched = false;

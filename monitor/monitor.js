@@ -86,7 +86,7 @@ app.put('/addServer', async (req, res) => {
         console.log('salio del for');
         
         logger('HTTP', 'addServer', `Se ha agregado el nodo de ip ${data.ip} y puerto ${data.port}`)
-        servers.push({ id: data.id, ip: data.ip, port: data.port, isLeader: false, status: true })
+        servers.push({ id: data.id, ip: data.ip, port: data.port, isLeader: false, status: true, name: `server${data.port-5000}` })
         res.send({ currentServers: servers });
         io.emit('serversList', servers);
     } else {
@@ -138,15 +138,17 @@ function selectComputer(id) {
     console.log(number)
     if (number%2 == 0) {
         ipComputerSelected = ipComputer1;
-        passwordSelected = '211100'
-        serverName = 'server'
+        //passwordSelected = '211100'
+        //serverName = 'server'
+        passwordSelected = 'sebas1502'
+        serverName = 'administrador'
     } else {
         ipComputerSelected = ipComputer2;
         passwordSelected = 'sebas1502'
         serverName = 'administrador'
     }
     //docker run -e IP=192.168.1.109 -e PORT=5001 -e IP_MONITOR=192.168.1.109 -e PORT_MONITOR=7000 -e INTERVAL=6 -e ID=1  --name nodo2 -p 5001:5001 -d nodo
-    command = `echo "${passwordSelected}" | sudo -S docker run -e IP=${ipComputerSelected} -e PORT=${actualPort} -e IP_MONITOR=${ipMonitor} -e PORT_MONITOR=${portMonitor} -e INTERVAL=${newTimeInterval()} -e ID=${id} --name server${actualPort - 5000} -p ${actualPort}:${actualPort} -d nodo`;
+    command = `echo "${passwordSelected}" | sudo -S docker run -e IP=${ipComputerSelected} -e PORT=${actualPort} -e IP_MONITOR=${ipMonitor} -e PORT_MONITOR=${portMonitor} -e INTERVAL=${newTimeInterval()} -e ID=${id} --name server${actualPort - 5000} --network healthcheck-net -p ${actualPort}:${actualPort} -d nodo`;
     ipToAdd = ipComputerSelected;
     portToAdd = actualPort;
     infoComputerSelected = { command: command, ipComputerSelected: ipComputerSelected, passwordSelected: passwordSelected, name: serverName };
@@ -205,7 +207,7 @@ async function changeServerStatus(ip, port) {
     const serverToFall = identifiers.find(server => (server.ipServer == ip && server.portServer == port));
     console.log(serverToFall);
 
-    if(ip == "192.168.171.167"){
+    if(ip == ipComputer2){
         infoComputerSelected.passwordSelected = 'sebas1502';
         infoComputerSelected.name = 'administrador';
     }else{
