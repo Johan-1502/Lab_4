@@ -23,9 +23,10 @@
                 <div class="card-image">
                     <div v-if="server.isLeader" class="cardCrown">
                         <img src="./Images/crown.png" alt="">
-                        <h3>Server {{server.port-4000}}</h3>
+                        <h3>Server {{server.port-5000}}</h3>
                     </div>
                     <h2 v-if="!server.isLeader">Server {{server.port-5000}}</h2>
+                    <a :href="'http://' + server.ip + ':' + server.port" target="_blank"></a>
                 </div>
                 <div class="card-content">
                     <div class="serverItems">
@@ -45,8 +46,8 @@
                         </div>
                     </div>
                     <div class="card-buttons">
-                        <button v-if="!server.status" class="stopButton" @click="changeServerStatus(server)">Detener</button>   
-                        <button v-if="server.status" class="reviveButton" @click="changeServerStatus(server)">Reanudar</button>
+                        <button v-if="server.status" class="stopButton" @click="changeServerStatus(server)">Detener</button>   
+                        <button v-if="!server.status" class="reviveButton" @click="changeServerStatus(server)">Reanudar</button>
                     </div>
                 </div>
             </div>

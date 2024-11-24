@@ -27,6 +27,7 @@ let infoComputerSelected;
 let ipToAdd;
 let portToAdd;
 
+
 setInterval(async () => {
     if (servers.length > 0) {
         for (let server of servers) {
@@ -126,15 +127,16 @@ function chooseComputer(id) {
     connect();
 }
 
+let number = 0;
 // Método para seleccionar el computador en el que se lanzará la instancia
 function selectComputer(id) {
-    let number = Math.floor(Math.random() * 2) + 1;
+    number++;
     let command;
     let ipComputerSelected;
     let passwordSelected;
     let serverName;
     console.log(number)
-    if (number == 1) {
+    if (number%2 == 0) {
         ipComputerSelected = ipComputer1;
         passwordSelected = '211100'
         serverName = 'server'
@@ -202,6 +204,14 @@ async function changeServerStatus(ip, port) {
 
     const serverToFall = identifiers.find(server => (server.ipServer == ip && server.portServer == port));
     console.log(serverToFall);
+
+    if(ip == "192.168.171.167"){
+        infoComputerSelected.passwordSelected = 'sebas1502';
+        infoComputerSelected.name = 'administrador';
+    }else{
+        infoComputerSelected.name = 'server';
+        infoComputerSelected.passwordSelected = '211100';
+    }
 
     let serverIdentifier = serverToFall.identifier;
     let isFallen = serverToFall.fallen
