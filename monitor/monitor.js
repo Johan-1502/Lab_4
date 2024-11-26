@@ -27,6 +27,7 @@ let infoComputerSelected;
 let ipToAdd;
 let portToAdd;
 
+let logs = [];
 
 setInterval(async () => {
     if (servers.length > 0) {
@@ -255,8 +256,8 @@ async function changeServerStatus(ip, port) {
 function logger(protocol, endpoint, message) {
     let log = `${new Date(Date.now()).toLocaleTimeString()} | ${protocol} | ${endpoint} | ${message}`;
     console.log(log);
-    //socket.emit('logs', { port: portClient, ip: ipClient, content: log })
-    //io.emit('currentLogs', log);
+    logs.push(log)
+    io.emit('logs', logs);
 };
 
 page.listen(portMonitor, function () {

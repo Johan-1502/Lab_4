@@ -25,6 +25,7 @@ let ipLeader = '';
 let portLeader = '';
 let electionLaunched = false;
 let servers = [];
+let logs = []
 
 io.on('connection', (socket) => {
     logger(' WS ', 'connection    ', 'El front del coordinador se ha conectado con Sockets');
@@ -246,8 +247,9 @@ function modifyPort() {
 function logger(protocol, endpoint, message) {
     let log = `${new Date(Date.now()).toLocaleTimeString()} | ${protocol} | ${endpoint} | ${message}`;
     console.log(log);
+    logs.push(log)
     //socket.emit('logs', { port: portClient, ip: ipClient, content: log })
-    io.emit('currentLogs', log);
+    io.emit('currentLogs', logs);
 };
 
 //Función para mostar logs en formato protocolo | endpoint | mensaje

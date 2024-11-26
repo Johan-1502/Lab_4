@@ -21,7 +21,7 @@ new Vue({
             });
 
             this.socket.on('currentLogs', (data) => {
-                this.serverLogs.push(data); 
+                this.serverLogs = data; 
             });
 
             this.socket.on('healthCheckLogs', (data) => {

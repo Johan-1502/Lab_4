@@ -42,6 +42,10 @@ new Vue({
             this.socket.on('serversList', (data) => {
                 this.serversList = data;
             });
+
+            this.socket.on('logs', (data) => {
+                this.logs = data;
+            });
         },
         async deploy(){
             const response = await fetch(`http://${this.ipMonitorBack}:${this.portMonitorBack}/deploy`, {
