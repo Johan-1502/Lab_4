@@ -138,10 +138,8 @@ function selectComputer(id) {
     console.log(number)
     if (number%2 == 0) {
         ipComputerSelected = ipComputer1;
-        //passwordSelected = '211100'
-        //serverName = 'server'
-        passwordSelected = 'sebas1502'
-        serverName = 'administrador'
+        passwordSelected = '211100'
+        serverName = 'server'
     } else {
         ipComputerSelected = ipComputer2;
         passwordSelected = 'sebas1502'
