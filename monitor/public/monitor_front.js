@@ -10,7 +10,21 @@ new Vue({
         portMonitorBack: 7000,
         newServerModal: false,
         serverStatus: null,
-        idNewServer: null
+        idNewServer: null,
+        logsModal: false,
+        logs: ["kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl ra",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd",
+            "kajsdflk awlek oiiwae jals fajke 3r jkwlae jkalwe aw jkawr ajkwl rawlkkr aw rawrasdf asd"]
     },
     methods: {
         // Método para conectarse por websockets al back del cliente
@@ -73,7 +87,11 @@ new Vue({
         },
         closeModal(){
             this.newServerModal = false;
+            this.logsModal = false
         },
+        openServer(server){
+            window.open (`https://${server.ip}:${server.port}`, '_blank');
+        }
         
     },
     mounted() {

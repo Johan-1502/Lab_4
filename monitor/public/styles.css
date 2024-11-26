@@ -11,22 +11,30 @@ body {
     background-color: #f1f1f1;
 }
 
-.sendInstance{
+.sendInstance {
     position: absolute;
     top: 19px;
     right: 15px;
 }
 
-.headerSendInstance{
-    background-color:  rgb(106, 221, 133);
+.seeLogs {
+    position: absolute;
+    top: 19px;
+    left: 15px;
+}
+
+.headerSendInstance {
+    background-color: rgb(106, 221, 133);
     width: 150px;
 }
 
-.headerSendInstance:hover{
+.headerSendInstance:hover {
     background-color: rgb(79, 166, 99);
-    transform: scale(1.05);}
+    transform: scale(1.05);
+}
 
-.header{
+
+.header {
     width: 100%;
     height: 70px;
     align-items: center;
@@ -51,7 +59,7 @@ body {
     color: white;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
+
 }
 
 .card {
@@ -78,7 +86,7 @@ body {
     justify-items: center;
 }
 
-.card-image h2{
+.card-image h2 {
     margin-top: 9%;
 }
 
@@ -89,7 +97,7 @@ body {
     justify-items: center;
 }
 
-.cardCrown h{
+.cardCrown h {
     margin: 0;
     padding: 0;
 }
@@ -152,7 +160,7 @@ body {
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-button{
+button {
     margin-top: 10px;
     width: 80px;
     padding-top: 6px;
@@ -167,20 +175,20 @@ button{
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-.stopButton{
+.stopButton {
     background-color: rgb(192, 192, 192);
 }
 
-.reviveButton{
+.reviveButton {
     background-color: rgb(106, 221, 133);
 }
 
-.stopButton:hover{
+.stopButton:hover {
     background-color: rgb(125, 125, 125);
     transform: scale(1.05);
 }
 
-.reviveButton:hover{
+.reviveButton:hover {
     background-color: rgb(79, 166, 99);
     transform: scale(1.05);
 }
@@ -256,4 +264,60 @@ form button {
 form button:hover {
     background-color: rgb(79, 166, 99);
     transform: scale(1.05);
+}
+
+.modal-contentLogs {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    height: 90%;
+    text-align: center;
+}
+
+.modal-contentLogs div {
+    max-height: 80%;
+    overflow-y: auto;
+    padding-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.closeButtonRegisterLogs {
+    position: relative;
+    bottom: 58px;
+    left: 580px;
+    font-size: 29px;
+    cursor: pointer;
+    color: rgb(68, 68, 68);
+}
+
+.no-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.log-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.log-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-family: 'Courier New', monospace;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.log-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

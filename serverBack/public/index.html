@@ -12,13 +12,13 @@
     <div id="app" class="container">
         <header>
             <div v-if="isLeader" class="cardCrown">
-                <img src="/Images/crown.png" alt="">
+                <img src="./Images/crown.png" alt="">
             </div>
         </header>
         <main>
             <section class="clock-section">
                 <div class="clock">
-                    <h3>Server</h3>
+                    <h3>Server {{portServerBack-5000}}</h3>
                     <p>IP: {{ipServerBack}}</p>
                     <p>Puerto: {{portServerBack}}</p>
                 </div>

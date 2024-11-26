@@ -13,20 +13,22 @@
 <body>
     <div id="app">
         <div class="sendInstance">
-            <button class="headerSendInstance" @click="openModal">Lanza instancia</button>
+            <button class="headerSendInstance" @click="newServerModal=true">Lanza instancia</button>
+        </div>
+        <div class="seeLogs">
+            <button class="headerSendInstance" @click="logsModal=true">Logs monitor</button>
         </div>
         <div class="header">
             <h1>Monitor de servidores</h1>
         </div>
         <div class="card-list">
             <div v-for="server in serversList" :key="server.name" class="card">
-                <div class="card-image">
+                <div class="card-image" @click="openServer(server)">
                     <div v-if="server.isLeader" class="cardCrown">
                         <img src="./Images/crown.png" alt="">
                         <h3>Server {{server.port-5000}}</h3>
                     </div>
                     <h2 v-if="!server.isLeader">Server {{server.port-5000}}</h2>
-                    <a :href="'http://' + server.ip + ':' + server.port" target="_blank"></a>
                 </div>
                 <div class="card-content">
                     <div class="serverItems">
@@ -46,8 +48,10 @@
                         </div>
                     </div>
                     <div class="card-buttons">
-                        <button v-if="server.status" class="stopButton" @click="changeServerStatus(server)">Detener</button>   
-                        <button v-if="!server.status" class="reviveButton" @click="changeServerStatus(server)">Reanudar</button>
+                        <button v-if="server.status" class="stopButton"
+                            @click="changeServerStatus(server)">Detener</button>
+                        <button v-if="!server.status" class="reviveButton"
+                            @click="changeServerStatus(server)">Reanudar</button>
                     </div>
                 </div>
             </div>
@@ -60,6 +64,19 @@
                     <input v-model="idNewServer" type="number" id="id-input" placeholder="Escribe un ID" required>
                     <button type="submit">Lanzar instancia</button>
                 </form>
+            </div>
+        </div>
+        <div v-if="logsModal" class="modal">
+            <div class="modal-contentLogs">
+                <h1>Logs monitor</h1>
+                <span class="closeButtonRegisterLogs" @click="closeModal">&times;</span>
+                <div>
+                    <ul class="no-bullets">
+                        <li v-for="(log, index) in logs" :key="index" class="log-item">
+                            {{ log }}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
