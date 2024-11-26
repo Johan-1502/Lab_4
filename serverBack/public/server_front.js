@@ -6,7 +6,7 @@ new Vue({
         serverStatus: '',
         serverLogs: [],
         serverHealthCheck: [],
-        isLeader: true
+        isLeader: false
     },
     methods: {
         // Método para conectarse por websockets al back del cliente

@@ -6,7 +6,7 @@ new Vue({
         { id: 1, status: false, isLeader: false, ip: 'awaas', port: 40300 },
         { id: 1, status: true, isLeader: false, ip: 'localhost', port: 40050 },
         { id: 1, status: true, isLeader: false, ip: 'localhost', port: 40600 }],
-        ipMonitorBack: '172.20.10.2',
+        ipMonitorBack: '192.168.154.94',
         portMonitorBack: 7000,
         newServerModal: false,
         serverStatus: null,
@@ -90,7 +90,7 @@ new Vue({
             this.logsModal = false
         },
         openServer(server){
-            window.open (`https://${server.ip}:${server.port}`, '_blank');
+            window.open (`http://${server.ip}:${server.port}`, '_blank');
         }
         
     },
